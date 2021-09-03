@@ -13,8 +13,11 @@
   "author": "Rao_Adeel_Nasir",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.3.6",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "mongodb": "^4.1.1",
+    "mongoose": "^6.0.3",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
