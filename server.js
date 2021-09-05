@@ -4,21 +4,21 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const connectDB = require('./config/db')
 const colors = require('colors')
-
+//errorhandler
+const errorHandler = require("./midleware/error")
 //routes Files
 const bootcamps = require('./routes/bootcamps')
 //Env Variables
 dotenv.config({ path: './config/config.env' });
+const PORT = process.env.PORT || 5000
 
 
 //mongodb connection
 connectDB();
 
+
 const app = express();
 
-
-
-const PORT = process.env.PORT || 5000
 
 //body-parser
 app.use(express.json({ extended: false }));
@@ -30,7 +30,8 @@ if (process.env.NODE_ENV = 'development') {
 
 //mout the routes
 app.use('/api/v1/bootcamps', bootcamps)
-
+//error handler should always down to mout of the routes
+app.use(errorHandler)
 
 const server = app.listen(PORT, console.log(`Server is listing ${process.env.NODE_ENV} at port ${PORT}`.yellow.bold))
 
