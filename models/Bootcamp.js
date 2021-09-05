@@ -16,18 +16,22 @@ const bootcampSchema = new mongoose.Schema({
         required: [true, "Enter the Desc please"],
         maxlenghth: [500, "Max desc may be in 500 chars"]
     },
-    // Javascript regex url
-    match: [
-        "https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
-        "Please Use a valid url with HTTP OR HHTPS"
-    ],
+    website: {
+        type: String,
+        // Javascript regex url
+        match: [
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+            "Please Use a valid url with HTTP OR HHTPS"
+        ]
+    }
+    ,
     phone: {
         type: String,
         maxlenghth: [20, "Max num is 20"]
     },
     email: {
         type: String,
-        match: ['/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i',
+        match: [/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
             "Please enter a valid Email"]
     },
     address: {
@@ -35,15 +39,15 @@ const bootcampSchema = new mongoose.Schema({
         required: [true, "Address is required"],
     },
     location: {
-        // GeoJson location in mongoose
+        // GeoJson Point location in mongoose
         type: {
             type: String, // Don't do `{ location: { type: String } }`
             enum: ['Point'], // 'location.type' must be 'Point'
-            required: true
+            // required: true
         },
         coordinates: {
             type: [Number],
-            required: true,
+            // required: true,
             index: '2dsphere'
         },
         formattedAddress: String,
@@ -99,3 +103,20 @@ const bootcampSchema = new mongoose.Schema({
 })
 
 module.exports = mongoose.model('Bootcamp', bootcampSchema)
+
+
+
+
+
+
+// "name": "ALI Rao",
+//     "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.Tempore, dicta ?lor0 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore, minima",
+//         "website": "https://devworks.com",
+//             "phone": "03093209323",
+//                 "email": "adnasirkbw@gmail.com",
+//                     "address": "55 bay state rd bhoson ma 00212",
+//                         "careers": ["Web dev", "Web Scraping", "Node js", "Android dev"],
+//                             "housing": true,
+//                                 "jobAssistance": true,
+//                                     "jobGuarantee": false,
+//                                         "acceptGi": true
