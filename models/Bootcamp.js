@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { default: slugify } = require("slugify");
 
 //@desc manogoose_Schema
 
@@ -99,24 +100,13 @@ const bootcampSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+})
 
+//Creat each Bootcamp Slug
+// pre is mongoose func it run before saving dataObject to database
+bootcampSchema.pre('save', function (next) { //use standard function instead of using arrow func 
+    this.slug = slugify(this.name, { lower: true })
+    next()
 })
 
 module.exports = mongoose.model('Bootcamp', bootcampSchema)
-
-
-
-
-
-
-// "name": "ALI Rao",
-//     "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.Tempore, dicta ?lor0 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore, minima",
-//         "website": "https://devworks.com",
-//             "phone": "03093209323",
-//                 "email": "adnasirkbw@gmail.com",
-//                     "address": "55 bay state rd bhoson ma 00212",
-//                         "careers": ["Web dev", "Web Scraping", "Node js", "Android dev"],
-//                             "housing": true,
-//                                 "jobAssistance": true,
-//                                     "jobGuarantee": false,
-//                                         "acceptGi": true
