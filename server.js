@@ -43,7 +43,3 @@ process.on('unhandledRejection', (err, Promise) => {
     server.close(() => { process.exit(1) })
 })
 
-
-
-// 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
-// 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
