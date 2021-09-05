@@ -25,7 +25,7 @@ exports.creatbootcamp = async (req, res, next) => {
         const bootcamp = await Bootcamp.create(req.body)
         res.status(200).json({ success: true, data: bootcamp })
     } catch (err) {
-        next(error)
+        next(err)
     }
 
 }
