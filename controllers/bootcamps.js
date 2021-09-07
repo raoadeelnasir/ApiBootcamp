@@ -16,14 +16,14 @@ exports.getbootcamps = asyncHandler(async (req, res, next) => {
 
     let reqQuery = { ...req.query }//copy req.query
 
-    //as select treated as an id So 
+    //as select ,sort treated as an id So 
     //Fields to exclude which i want not to match
-    const removeFields = ['select']
+    const removeFields = ['select', 'sort']
 
     //loop over removeFields and delete them from reqQuery
     removeFields.forEach(param => delete reqQuery[param])
 
-    console.log(reqQuery);
+    // console.log(reqQuery);
     //Creat query string
     let querystr = JSON.stringify(reqQuery) //to get string properties
 
@@ -41,7 +41,13 @@ exports.getbootcamps = asyncHandler(async (req, res, next) => {
         // console.log(fields); log for dev
         query = query.select(fields)
     }
-
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        query = query.sort(sortBy)
+    }//else we want to sort bootcamps default by the date
+    else {
+        query = query.sort('--createdAt')
+    }
     //execute query
     const bootcamp = await query
     res.status(200).json({ success: true, count: bootcamp.length, data: bootcamp })
