@@ -11,7 +11,20 @@ const asyncHandler = require('../midleware/async')
 //route    /api/v1/bootcamps
 //access   public
 exports.getbootcamps = asyncHandler(async (req, res, next) => {
-    const bootcamp = await Bootcamp.find()
+    // console.log(req.query);
+    let query;
+
+    //Creat query string
+    let querystr = JSON.stringify(req.query) //to get string properties
+
+    //creat operators (e.g $gt,$gte,$lt,$lte)
+    querystr = querystr.replace(/\b()gt|gte|lt|lte|in\b/g, match => `$${match}`) //regular expression to get money sign
+    // console.log(querystr);
+
+    //finds match items
+    query = Bootcamp.find(JSON.parse(querystr))
+    //execute query
+    const bootcamp = await query
     res.status(200).json({ success: true, count: bootcamp.length, data: bootcamp })
 });
 
