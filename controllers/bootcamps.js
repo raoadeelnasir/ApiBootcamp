@@ -18,7 +18,7 @@ exports.getbootcamps = asyncHandler(async (req, res, next) => {
 
     //as select ,sort treated as an id So 
     //Fields to exclude which i want not to match
-    const removeFields = ['select', 'sort']
+    const removeFields = ['select', 'sort', 'page', 'limit']
 
     //loop over removeFields and delete them from reqQuery
     removeFields.forEach(param => delete reqQuery[param])
@@ -41,6 +41,8 @@ exports.getbootcamps = asyncHandler(async (req, res, next) => {
         // console.log(fields); log for dev
         query = query.select(fields)
     }
+
+    //sort
     if (req.query.sort) {
         const sortBy = req.query.sort.split(',').join(' ')
         query = query.sort(sortBy)
@@ -48,9 +50,40 @@ exports.getbootcamps = asyncHandler(async (req, res, next) => {
     else {
         query = query.sort('--createdAt')
     }
+
+    //pagination
+    const page = parseInt(req.query.page, 10) || 1 //default set is page 1
+    const limit = parseInt(req.query.limit, 10) || 100 //defulat each page show only 100 bootcamps
+    //skip
+    const startIndex = (page - 1) * limit;
+    query = query.skip(startIndex).limit(limit)
+
+    //for pagination next and previous pages
+    const endIndex = page * limit;
+    const total_documents = await Bootcamp.countDocuments();
+
+
     //execute query
     const bootcamp = await query
-    res.status(200).json({ success: true, count: bootcamp.length, data: bootcamp })
+
+    //pagination result
+    const pagination = {}
+
+    //next pages
+    if (endIndex < total_documents) {
+        pagination.next = {
+            page: page + 1,
+            limit: limit
+        }
+    }
+    //previous pages
+    if (startIndex > 0) {
+        pagination.prev = {
+            page: page - 1,
+            limit: limit
+        }
+    }
+    res.status(200).json({ success: true, count: bootcamp.length, pagination: pagination, data: bootcamp })
 });
 
 //@desc    post single Bootcamp
