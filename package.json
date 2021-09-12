@@ -13,6 +13,7 @@
   "author": "Rao_Adeel_Nasir",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "config": "^3.3.6",
