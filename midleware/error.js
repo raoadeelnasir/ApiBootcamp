@@ -9,7 +9,7 @@ const errorHandler = (err, req, res, next) => {
     let error = { ...err } //gets the whole property of err
     error.message = err.message
 
-    console.log(err.name.red); //error name
+    // console.log(err.name.red); //error name
     //Mongoose Bad ObjectId
     if (err.name === 'CastError') {
         const message = `Bootcamp not Founded with Id ${err.value}`

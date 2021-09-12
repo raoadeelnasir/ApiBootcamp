@@ -8,7 +8,6 @@ dotenv.config({ path: './config/config.env' })
 
 //load model
 const bootcamp = require('./models/Bootcamp');
-const { deleteMany } = require('./models/Bootcamp');
 
 //connect to db
 mongoose.connect(process.env.MONGO_URI)

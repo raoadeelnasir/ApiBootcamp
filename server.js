@@ -8,6 +8,7 @@ const colors = require('colors')
 const errorHandler = require("./midleware/error")
 //routes Files
 const bootcamps = require('./routes/bootcamps')
+const auth = require("./routes/auth")
 //Env Variables
 dotenv.config({ path: './config/config.env' });
 const PORT = process.env.PORT || 5000
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV = 'development') {
 
 //mout the routes
 app.use('/api/v1/bootcamps', bootcamps)
+app.use('/api/v1/auth', auth)
 //error handler should always down to mout of the routes
 app.use(errorHandler)
 
